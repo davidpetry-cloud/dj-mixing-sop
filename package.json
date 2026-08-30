@@ -1,0 +1,21 @@
+{
+  "name": "dj-mixing-sop",
+  "version": "1.0.0",
+  "description": "Standard operating procedure for mixing a DJ through a two-sub, two-main FOH rig — gain staging, sub matching, and troubleshooting, with every step attributed.",
+  "type": "module",
+  "author": "David Petry",
+  "license": "MIT",
+  "scripts": {
+    "build": "mkdir -p public/vendor/attestation-ledger && cp node_modules/attestation-ledger/src/index.js public/vendor/attestation-ledger/index.js && mkdir -p public/src && cp src/*.js public/src/",
+    "preview": "npm run build && npx --yes serve public",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "attestation-ledger": "^0.1.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
+  },
+  "keywords": ["live-sound", "dj", "audio-engineering", "foh", "provenance"]
+}
