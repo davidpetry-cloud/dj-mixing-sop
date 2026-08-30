@@ -90,7 +90,10 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);
 </header>
 
 <div class="bar">
-  <div class="mode-group" id="modes" role="group" aria-label="Operating mode"></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="mode-group" id="modes" role="group" aria-label="Operating mode"></div>
+    <span id="modeDiff" style="font-family:var(--mono);font-size:10.5px;color:var(--t3)"></span>
+  </div>
   <div style="display:flex;gap:12px;align-items:center">
     <label class="edm-toggle"><input type="checkbox" id="edmToggle"> EDM overlay</label>
     <button id="mode" type="button" aria-pressed="false">Light</button>
@@ -133,7 +136,19 @@ function renderModes(){
     <button class="mode-btn" type="button" data-mode="A" aria-pressed="${mode==='A'}">Mode A · Guest DJ</button>
     <button class="mode-btn" type="button" data-mode="B" aria-pressed="${mode==='B'}">Mode B · You're the DJ</button>`;
   document.querySelectorAll("[data-mode]").forEach(b=>
-    b.addEventListener("click", ()=>{ mode = b.dataset.mode; renderModes(); render(); }));
+    b.addEventListener("click", ()=>{
+      const changed = mode !== b.dataset.mode;
+      mode = b.dataset.mode;
+      renderModes();
+      render();
+      if (changed && mode === "B") {
+        const target = document.getElementById("section-mode-b");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }));
+  const onlyB = SECTIONS.find(s => s.id === "mode-b")?.steps.length ?? 0;
+  document.getElementById("modeDiff").textContent =
+    mode === "B" ? `+${onlyB} steps only for Mode B — jumping there now` : `Mode B adds ${onlyB} more steps below`;
 }
 
 function render(){
@@ -147,6 +162,7 @@ function render(){
 
     const el = document.createElement("div");
     el.className = "section";
+    if (section.id === "mode-b") el.id = "section-mode-b";
     el.innerHTML = `
       <div class="section-head">
         <span class="section-n">${String(section.n).padStart(2,"0")}</span>
