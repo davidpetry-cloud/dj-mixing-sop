@@ -133,23 +133,28 @@ function renderRig(){
 
 function renderModes(){
   document.getElementById("modes").innerHTML = `
-    <button class="mode-btn" type="button" data-mode="A" aria-pressed="${mode==='A'}">Mode A · Guest DJ</button>
-    <button class="mode-btn" type="button" data-mode="B" aria-pressed="${mode==='B'}">Mode B · You're the DJ</button>`;
-  document.querySelectorAll("[data-mode]").forEach(b=>
-    b.addEventListener("click", ()=>{
-      const changed = mode !== b.dataset.mode;
-      mode = b.dataset.mode;
-      renderModes();
-      render();
-      if (changed && mode === "B") {
-        const target = document.getElementById("section-mode-b");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }));
+    <button class="mode-btn" type="button" data-djmode="A" aria-pressed="${mode==='A'}">Mode A · Guest DJ</button>
+    <button class="mode-btn" type="button" data-djmode="B" aria-pressed="${mode==='B'}">Mode B · You're the DJ</button>`;
   const onlyB = SECTIONS.find(s => s.id === "mode-b")?.steps.length ?? 0;
   document.getElementById("modeDiff").textContent =
-    mode === "B" ? `+${onlyB} steps only for Mode B — jumping there now` : `Mode B adds ${onlyB} more steps below`;
+    mode === "B" ? `Showing ${onlyB} extra steps for Mode B` : `Mode B adds ${onlyB} more steps`;
 }
+
+// Delegated once on the container. Survives innerHTML replacement and cannot
+// stack duplicate handlers the way per-button binding inside a re-render does.
+document.getElementById("modes").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-djmode]");
+  if (!btn) return;
+  const next = btn.dataset.djmode;
+  const changed = mode !== next;
+  mode = next;
+  renderModes();
+  render();
+  if (changed && mode === "B") {
+    document.getElementById("section-mode-b")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+});
 
 function render(){
   const container = document.getElementById("sections");
