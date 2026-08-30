@@ -72,6 +72,16 @@ rather than the WZ3's aux-fed-sub feature.
   limitation is a single-contributor dataset until more practitioners weigh
   in through the same attestation model.
 
+## Related
+
+- **[Live Sound EQ SOP](https://github.com/davidpetry-cloud/live-sound-eq-sop)**
+  ([live site](https://live-sound-eq-sop.netlify.app)) — channel EQ starting
+  points and aux/effects routing for an Allen & Heath MixWizard WZ3. A
+  different rig and a different problem shape: console strip values rather
+  than procedure.
+- **[attestation-ledger](https://www.npmjs.com/package/attestation-ledger)**
+  — the published engine both SOPs depend on.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

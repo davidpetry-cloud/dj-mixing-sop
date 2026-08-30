@@ -95,7 +95,7 @@ footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);
     <span id="modeDiff" style="font-family:var(--mono);font-size:10.5px;color:var(--t3)"></span>
   </div>
   <div style="display:flex;gap:12px;align-items:center">
-    <label class="edm-toggle"><input type="checkbox" id="edmToggle"> EDM overlay</label>
+    <label class="edm-toggle"><input type="checkbox" id="edmToggle"> <span id="edmLabel">EDM overlay</span></label>
     <button id="mode" type="button" aria-pressed="false">Light</button>
   </div>
 </div>
@@ -168,6 +168,7 @@ function render(){
     const el = document.createElement("div");
     el.className = "section";
     if (section.id === "mode-b") el.id = "section-mode-b";
+    if (section.id === "edm") el.id = "section-edm";
     el.innerHTML = `
       <div class="section-head">
         <span class="section-n">${String(section.n).padStart(2,"0")}</span>
@@ -197,8 +198,20 @@ function render(){
   container.appendChild(ts);
 }
 
+const edmCount = SECTIONS.find(s => s.id === "edm")?.steps.length ?? 0;
+function renderEdmLabel(){
+  document.getElementById("edmLabel").textContent =
+    showEdm ? `EDM overlay · ${edmCount} steps shown` : `EDM overlay · +${edmCount} steps`;
+}
+
 document.getElementById("edmToggle").addEventListener("change", e=>{
-  showEdm = e.target.checked; render();
+  showEdm = e.target.checked;
+  renderEdmLabel();
+  render();
+  if (showEdm) {
+    document.getElementById("section-edm")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
 
 const modeBtn = document.getElementById("mode");
@@ -212,6 +225,7 @@ modeBtn.addEventListener("click", ()=>{ dark=!dark; applyMode(); });
 applyMode();
 renderRig();
 renderModes();
+renderEdmLabel();
 render();
 </script>
 </body>
