@@ -75,7 +75,7 @@ rather than the WZ3's aux-fed-sub feature.
 ## Related
 
 - **[Live Sound EQ SOP](https://github.com/davidpetry-cloud/live-sound-eq-sop)**
-  ([live site](https://live-sound-eq-sop.netlify.app)) — channel EQ starting
+  ([live site](https://davidpetry-cloud.github.io/live-sound-eq-sop/)) — channel EQ starting
   points and aux/effects routing for an Allen & Heath MixWizard WZ3. A
   different rig and a different problem shape: console strip values rather
   than procedure.
